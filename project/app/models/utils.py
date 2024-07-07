@@ -31,7 +31,7 @@ async def get_all_objects(
     return stmt
 
 async def get_object_404(
-    model: Type[SQLModel], session: AsyncSession, **kwargs: any
+    model: Type[SQLModel], session: AsyncSession, id: int
 ) -> SQLModel:
     """Get object from database or raise 404 error.
 
@@ -46,9 +46,8 @@ async def get_object_404(
         SQLModel: An instance of SQLModel.
     """
 
-    result = await get_all_objects(session=session, model=model)
+    result = await session.exec(select(model).where(model.id==id))
     result = result.first()
-
     if result is None:
         raise HTTPException(
             status_code=404, detail=f"{model.__name__} Object does not exist"

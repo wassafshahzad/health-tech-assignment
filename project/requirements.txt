@@ -4,3 +4,12 @@ fastapi==0.100.0
 sqlmodel==0.0.8
 uvicorn==0.22.0
 pydantic
+pytest
+httpx
+aiosqlite
+anyio
+pytest-asyncio
+pytest-tornasync
+pytest-trio
+pytest-twisted
+twisted

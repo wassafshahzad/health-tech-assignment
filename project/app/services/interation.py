@@ -46,3 +46,7 @@ async def get_reports(session: AsyncSession, filter: BaseFilter) -> Query:
     stmt = stmt.order_by(models.Interaction.created_datetime.desc())
     result = await session.exec(stmt)
     return result
+
+async def get_interaction_by_id(id:int, session:AsyncSession):
+    return await get_object_404(models.Interaction, session=session, id=id)
+   
