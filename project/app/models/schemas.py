@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class UserBase(BaseModel):
@@ -19,14 +20,13 @@ class User(UserBase):
 class DoctorBase(BaseModel):
     """Base Doctor DTO."""
 
-    user_id: int
+    user: User
 
 
 class Doctor(DoctorBase):
     """Doctor Read DTO."""
 
     id: int
-    user: User
 
     class Config:
         orm_mode = True
@@ -35,14 +35,13 @@ class Doctor(DoctorBase):
 class PatientBase(BaseModel):
     """Base Patient DTO."""
 
-    user_id: int
+    user: User
 
 
 class Patient(PatientBase):
     """Base Patient Read DTO."""
 
     id: int
-    user: User
 
     class Config:
         orm_mode = True
@@ -62,6 +61,7 @@ class Interaction(InteractionBase):
     """Base Interaction Retrieve DTO."""
 
     id: int
+    created_datetime: datetime
 
     class Config:
         orm_mode = True
@@ -72,3 +72,15 @@ class InteractionCreate(InteractionBase):
 
     class Config:
         orm_mode = True
+
+
+class ReportDetail(InteractionBase):
+    doctor: DoctorBase
+    patient: PatientBase
+
+    class Config:
+        orm_mode = True
+        fields = {
+            "doctor_id": {"exclude": True},
+            "patient_id": {"exclude": True},
+        }

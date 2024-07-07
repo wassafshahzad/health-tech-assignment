@@ -1,12 +1,17 @@
-from typing import Type, Callable
+from typing import Optional, Type, Callable
 
 from fastapi import HTTPException
 from sqlmodel import SQLModel, select
 from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy.orm import Query
 
 
 async def get_all_objects(
-    session: AsyncSession, model: Type[SQLModel], func: Callable) -> list[SQLModel]:
+    session: AsyncSession,
+    model: Type[SQLModel],
+    func: Optional[Callable] = None,
+    exec: bool = True,
+) -> Query:
     """Get lists of database objects based on filters
 
     Args:
@@ -16,13 +21,14 @@ async def get_all_objects(
     Returns:
         list[SQLModel]: list of SQLModels instances.
     """
-    
+
     stmt = select(model)
     if func:
         stmt = func(stmt)
-    result = await session.exec(stmt)
-    return result
-
+    if exec:
+        result = await session.exec(stmt)
+        return result
+    return stmt
 
 async def get_object_404(
     model: Type[SQLModel], session: AsyncSession, **kwargs: any

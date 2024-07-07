@@ -1,4 +1,5 @@
 from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy.orm import Query, selectinload
 
 from app.models import schemas, models, get_object_404, get_all_objects
 from app.filters.filters import BaseFilter
@@ -36,3 +37,12 @@ async def get_interactions_by_filter_class(
         list[models.Interaction]: List of Interaction objects.
     """
     return await get_all_objects(model= models.Interaction, session=session, func=filter.apply)
+
+async def get_reports(session: AsyncSession, filter: BaseFilter) -> Query:
+    stmt = await get_all_objects(
+        model=models.Interaction, session=session, func=filter.apply,exec=False
+    )
+    stmt = stmt.options(selectinload(models.Interaction.doctor).selectinload(models.Doctor.user), selectinload(models.Interaction.patient).selectinload(models.Patient.user))
+    stmt = stmt.order_by(models.Interaction.created_datetime.desc())
+    result = await session.exec(stmt)
+    return result
