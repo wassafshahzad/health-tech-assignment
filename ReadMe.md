@@ -34,7 +34,7 @@ Please follow the intructions below to run the application.
 
 1. Git clone the repo.
 2. CD into the cloned directory.
-3. Run **docker-compose** build web contianer.
+3. Run **docker-compose build web** contianer.
 4. Run **docker-compose up**
 5. Go to localhost:8004/docs to visit the swagger API.
 6. Use the api's define there to test the app.
