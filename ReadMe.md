@@ -25,6 +25,8 @@ The application has endpoints which can acheive the following.
 ## Notes
   1. I decided to go against a dedicated model for history as I beleived it to be a over engineered solution.
   2. I also decided go against the text choices for Healty and Unhealthy as the outcomde can filtered using the query params.
+  3. I did not crete crud apis for doctors and patients as the doctument did not mentions them.
+  4. I have created Utils which can be used to easily implement them.
 
 
 ## Testing the Application
@@ -36,3 +38,4 @@ Please follow the intructions below to run the application.
 4. Run **docker-compose up**
 5. Go to localhost:8004/docs to visit the swagger API.
 6. Use the api's define there to test the app.
+7. You can use the id from 1-5 for doctors and patient ids for interaction creations.
