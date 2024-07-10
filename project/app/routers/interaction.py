@@ -25,7 +25,7 @@ async def get_list_interactions(filters: InteractionFilter = Depends(), session:
 @router.get("/interactions/{id}", response_model=schemas.Interaction)
 async def get_interaction_by_id(id: int, session: AsyncSession = Depends(get_session)):
     result = await service.get_interaction_by_id(id, session=session)
-    return result.all()
+    return result
 
 @router.get("/report/{doctor_id}/{patient_id}/", response_model=list[schemas.ReportDetail])
 async def get_patient_report(doctor_id: int, patient_id:int, session: AsyncSession = Depends(get_session)):

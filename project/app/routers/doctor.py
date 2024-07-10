@@ -16,4 +16,4 @@ async def get_list_interactions(session: AsyncSession = Depends(get_session)):
     result = result.options(selectinload(models.Doctor.user))
     result = await session.exec(result)
     return result.all()
-    
+
